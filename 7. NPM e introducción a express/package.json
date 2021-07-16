@@ -1,0 +1,19 @@
+{
+    "name": "entrega_segunda",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "build": "tsc"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "typescript": "^4.3.2"
+    },
+    "devDependencies": {
+        "@types/node": "^15.12.2"
+    }
+}

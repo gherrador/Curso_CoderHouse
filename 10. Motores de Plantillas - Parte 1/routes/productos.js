@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 })
 
 routerProductos.post("/guardar", (req, res) => {
-    const producto_nuevo = productos.guardar(req.body); {
+    let producto_nuevo = productos.guardar(req.body); {
         if (producto_nuevo.form === "1") { return res.redirect('http://localhost:8080/api/nuevo-producto') };
         res.status(200).json(producto_nuevo);
     }

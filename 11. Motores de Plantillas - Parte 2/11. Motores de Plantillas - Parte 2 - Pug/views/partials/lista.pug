@@ -1,0 +1,26 @@
+p 
+    H6 Tabla de Productos
+
+    if productos 
+
+        table(class="table")
+            thead
+                tr 
+                    th(scope="col") #
+                    th(scope="col") title
+                    th(scope="col") price
+                    th(scope="col") thumbnail
+            tbody
+
+            each producto in productos 
+
+                tr  
+                    th(scope="row")= producto.id
+                    td= producto.title
+                    td= producto.price
+                    td
+                        img(src=producto.thumbnail, alt="", class="img-thumbnail")
+
+    else 
+
+        p No hay productos 

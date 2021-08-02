@@ -1,5 +1,5 @@
 {
-    "name": "entrega_decima",
+    "name": "entrega_treceava",
     "version": "1.0.0",
     "description": "",
     "main": "server.js",
@@ -8,7 +8,11 @@
         "dev": "nodemon server.js"
     },
     "keywords": [],
-    "author": "",
+    "engines": {
+        "node": ">=14.0.0",
+        "npm": ">=6.0.0"
+    },
+    "author": "Neri Herrador Rojo",
     "license": "ISC",
     "dependencies": {
         "body-parser": "^1.19.0",

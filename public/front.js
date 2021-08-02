@@ -48,3 +48,29 @@ socket.on('lista', data => {
         document.getElementById('lista').innerHTML = '<p>No hay productos para mostrar</p>';
     }
 })
+
+
+socket.on('mensajes', data => {
+    render(data);
+});
+
+nuevomensaje = () => {
+    const mensaje = {
+        autor: document.getElementById('email_usuario').value,
+        texto: document.getElementById('texto').value
+    };
+    socket.emit('nuevo_mensaje', mensaje);
+    document.getElementById('texto').value = ''
+    document.getElementById('texto').focus()
+    return false;
+}
+
+render = (data) => {
+    const html = data.map((elem, index) => {
+        return (`<div style="color:rgb(128,64,0);">
+                <strong style="color:rgb(0,0,255);">${elem.autor}</strong>
+                [(${elem.date})]:
+                <em style="color:rgb(0,143,57);">${elem.texto}</em> </div>`)
+    }).join(" ");
+    document.getElementById('mensajes').innerHTML = html;
+}

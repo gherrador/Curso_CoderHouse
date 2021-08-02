@@ -6,6 +6,7 @@ const productoRoutes = require('./routes/productos');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
+const chat = require('./public/chat');
 const puerto = 8080;
 const server = app.listen(puerto, () => {
     console.log(`servidor escuchando en http://localhost:${puerto}`);
@@ -13,7 +14,7 @@ const server = app.listen(puerto, () => {
 server.on('error', error => {
     console.log('error en el servidor:', error);
 });
-
+const chats = new chat();
 app.engine(
     'hbs', handlebars({
         extname: '.hbs',
@@ -33,14 +34,25 @@ const SocketIO = require('socket.io')
 const io = SocketIO(server)
 
 const listaProductos = []
+let mensajes = 0
 
-io.on('connection', (socket) => {
+io.on('connection', async(socket) => {
     console.log('Cliente conectado');
     socket.emit('lista', listaProductos)
 
     socket.on('listado', (data) => {
         listaProductos.push(data);
         console.log('Producto Cargado');
+        mensajes++
         io.sockets.emit('lista', listaProductos)
+    })
+
+    socket.emit('mensajes', await chats.leer())
+
+
+    socket.on('nuevo_mensaje', async(data) => {
+
+        await chats.guardar(data.autor, data.texto)
+        io.sockets.emit('mensajes', await chats.leer())
     })
 })

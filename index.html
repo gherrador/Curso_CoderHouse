@@ -16,7 +16,7 @@
 </head>
 
 <body>
-    <form action="/api/productos/guardar" method="post" role="form" onsubmit="return datosformulario(this)">
+    <form role="form" onsubmit="return datosformulario(this)">
         <div class="form-group">
             <label for="name">Nombre del Producto</label>
             <input id='titulo' placeholder="Ingrese el nombre del producto" class="form-control" type="text" name='title'>
@@ -34,9 +34,22 @@
         <button type="submit" id="btn">Cargar Producto</button>
     </form>
 
-    <h1>Lista de Productos</h1>
+    <br></br>
+    <h4>Lista de Productos</h4>
     <div id='lista'></div>
-    <script src='lista.js' charset="utf-8"></script>
+    <script src='front.js' charset="utf-8"></script>
+
+    <div class="container-fluid mt-3">
+        <h4>Chat de Consultas y Respuestas</h4>
+
+        <div id="mensajes"></div>
+        <form class="form-online" onsubmit="return nuevomensaje(this)" autocomplete="off">
+            <input type="email" id='email_usuario' class="form-control my-3 mr-3" placeholder="Tu Correo electrónico">
+            <input type="text" id='texto' class="form-control my-3 mr-3" placeholder="Escribe un mensaje">
+            <input class='btn mensaje' type="submit" value="Enviar mensaje">
+        </form>
+    </div>
+
 </body>
 
 </html>

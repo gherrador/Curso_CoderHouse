@@ -67,10 +67,10 @@ nuevomensaje = () => {
 
 render = (data) => {
     const html = data.map((elem, index) => {
-        return (`<div style="color:rgb(128,64,0);">
-                <strong style="color:rgb(0,0,255);">${elem.autor}</strong>
+        return (`<div style="color:rgb(141,73,37);">
+                <b style="color:rgb(0,0,255);">${elem.autor}</b>
                 [(${elem.date})]:
-                <em style="color:rgb(0,143,57);">${elem.texto}</em> </div>`)
+                <i style="color:rgb(6,227,22);">${elem.texto}</i> </div>`)
     }).join(" ");
     document.getElementById('mensajes').innerHTML = html;
 }

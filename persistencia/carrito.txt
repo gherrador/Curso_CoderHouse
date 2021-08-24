@@ -1,0 +1,1 @@
+[{"id":1,"timestamp":1629764724387,"nombre":"Lapicera","descripcion":"120","codigo":123132123,"foto":"https://www.bomberomania.com.ar/wp-content/uploads/LAPICERA-AZUL-EMERGENCIA-M%C3%89DICA-2.jpg","precio":150,"stock":2}]

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js" integrity="sha512-RNLkV3d+aLtfcpEyFG8jRbnWHxUqVZozacROI4J2F1sTaDqo1dPQYs01OMi1t1w9Y2FdbSCDSQ2ZVdAC8bzgAg==" crossorigin="anonymous"></script>
+    <script src="/socket.io/socket.io.js"></script>    
+    <title>Lista de Productos</title>
+
+</head>
+
+<ul>     
+    <li><a href="/nuevo-producto">Ingresa un nuevo producto</a></li>
+</ul>
+
+{{#mytitle}}Lista de Productos{{/mytitle}}
+
+{{#if productos}}
+
+    <table class="table">
+        <thead>
+            <tr>
+            <th scope="col">#</th>
+            <th scope="col">title</th>
+            <th scope="col">price</th>
+            <th scope="col">thumbnail</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        {{#each productos}}
+
+            <tr>
+                <th scope="row">{{id}}</th>
+                <td><b>{{title}}</b></td>
+                <td>{{price}}</td>
+                {{#if thumbnail}}
+                <td>
+
+                    <img class="img-thumbnail" src={{{thumbnail}}} alt="" />
+                </td>
+                {{/if}}
+            </tr>
+
+        {{/each}}
+
+        </tbody>
+    </table>
+
+
+
+{{else}}
+
+    <p>No hay productos cargados. Para ingresar productos clickea ---> <a href="http://localhost:8080/nuevo-producto">Aqui</a></p>
+
+{{/if}}

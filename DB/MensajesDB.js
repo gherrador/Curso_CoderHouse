@@ -20,7 +20,7 @@ class MensajesDB {
             if (err) {
                 console.log(err);
             } else {
-                console.log('Conectado a la base en constructor de archivoDb');
+                console.log('Conectado a la base en constructor de MensajesDB');
             }
         })
     }

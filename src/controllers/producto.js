@@ -54,7 +54,7 @@ const actualizarPorId = (id, data) => {
         });
         return true;
     } catch (err) {
-        console.log('Ups. algo paso', err);
+        console.log('Ocurrio un error inesperado', err);
     }
 }
 const borrarPorId = (id) => {

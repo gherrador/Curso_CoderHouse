@@ -12,10 +12,7 @@ const productodb = new ProductoDB;
 
 routerProductos.get("/lista", async(req, res) => {
     const productos = await productodb.listar();
-    res.render('lista', {
-        active: "lista",
-        productos: productos
-    });
+    res.status(201).json(productos)
 })
 
 routerProductos.post("/", async(req, res) => {

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style/main.css">
+    <script src="/socket.io/socket.io.js"></script> 
+    <title>Lista de Productos</title>
+
+</head>
+
+<body>
+
+    <h3>Panel de productos</h3>
+
+    <a href="http://localhost:8080/index"><input type="button" value="Cargar Producto"></a>
+
+    {{#mytitle}}Lista de Productos{{/mytitle}}
+
+    {{#if productos}}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>               
+                <th scope="col">Precio</th>             
+                <th scope="col">Foto</th>
+               
+            </tr>
+        </thead>
+        <tbody>
+
+            {{#each productos}}
+
+            <tr>
+                <th scope="row">{{_id}}</th>
+                <td><b>{{title}}</b></td>             
+                <td>{{price}}</td>                            
+                <td><img class="img-thumbnail" src={{{thumbnail}}} alt="" /></td>                
+                <td>                    
+                    <form action="/productos/actualizar/{{{_id}}}?id={{{_id}}}" method="put" role="form">
+                        <button id='actualizar-producto' type="submit" class="form-control">Actualizar Producto</button>                        
+                    </form>    
+                    <form action="/productos/borrar/{{{_id}}}" method="POST" role="form">                        
+                        <button id='borrar-producto' type="submit" class="form-control">Eliminar Producto</button>
+                    </form>                
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    {{else}}
+
+    <p>No hay productos</p>
+
+    {{/if}}
+</body>

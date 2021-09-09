@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style/main.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <title>Lista de Productos</title>
+
+</head>
+
+<body>
+    <form action="http://localhost:8080/inicio">
+        <button id='lista_carito' type="submit">Volver al inicio</button>
+    </form>
+
+
+    <h3>Panel de Productos Cliente</h3>  
+
+    <section class="filtros">
+        <section class="filtro__nombre">
+            <form class="search-form" action="carrito/nombre/:nombre" method="GET" enctype="multipart/form-data" role="form">
+                <input class="form-nombre" type="text" placeholder="Filtrar por Nombre" name="nombre">
+                <button type="submit" class="btn">Filtrar por Nombre</button>
+            </form>
+        </section>
+        <section class="filtro__id">
+            <form class="search-form" action="carrito/listar/:id" method="GET" enctype="multipart/form-data" role="form">
+                <input class="form-nombre" type="text" placeholder="Filtrar por ID Producto" name="id" />
+                <button type="submit" class="btn">Filtrar por ID</button>
+            </form>
+        </section>
+        <section class="filtro__codigo">
+            <form class="search-form" action="carrito/codigo/:codigo" method="GET" enctype="multipart/form-data" role="form">
+                <input class="form-nombre" type="text" placeholder="Filtrar por Codigo Producto" name="codigo" />
+                <button type="submit" class="btn">Filtrar por Codigo</button>
+            </form>
+        </section>
+        <section class="filtro__precio">
+            <form class="search-form" action="carrito/precio/precioInferior/precioSuperior" method="GET"
+                enctype="multipart/form-data" role="form">
+                <input class="form-nombre" type="text" placeholder="Filtrar por Precio Producto"
+                    name="precioInferior" />
+                <input class="form-nombre" type="text" placeholder="Filtrar por Precio Producto"
+                    name="precioSuperior" />
+                <button type="submit" class="btn">Filtrar por Precio</button>
+            </form>
+        </section>
+        <section class="filtro__stock">
+            <form class="search-form" action="carrito/stock/stockInferior/:stockSuperior" method="GET"
+                enctype="multipart/form-data" role="form">
+                <input class="form-nombre" type="text" placeholder="Filtrar por Stock Producto" name="stockInferior" />
+                <input class="form-nombre" type="text" placeholder="Filtrar por Stock Producto" name="stockSuperior" />
+                <button type="submit" class="btn">Filtrar por Stock</button>
+            </form>
+        </section>
+    </section>
+
+    {{#mytitle}}Lista de Productos{{/mytitle}}
+
+    {{#if productos}}    
+    <form action="/carrito/lista">
+        <button id='lista_carito' type="submit">Ir a mi Carrito</button>
+    </form>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Descripcion</th>
+                <th scope="col">Codigo</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Stock</th>
+                <th scope="col">Foto</th>
+                <th scope="col">Accion</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {{#each productos}}
+
+            <tr>
+                <th scope="row">{{_id}}</th>
+                <td><b>{{nombre}}</b></td>
+                <td>{{descripcion}}</td>
+                <td>{{codigo}}</td>
+                <td>{{precio}}</td>
+                <td>{{stock}}</td>
+                <td><img class="img-thumbnail" src={{{foto}}} alt="" /></td>
+                <td>                                   
+                    <form action="/carrito/compras/{{{_id}}}" method="POST" role="form">
+                        <button id='comprar-carrito' type="submit" class="form-control">Comprar Producto</button>
+                    </form>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    {{else}}
+
+    <p>No hay productos</p>
+
+    {{/if}}
+</body>

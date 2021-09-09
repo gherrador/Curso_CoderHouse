@@ -1,0 +1,20 @@
+{{#each productos}}
+<form action="/productos/actualizar" method="POST" role="form">
+    <p>Id</p>
+    <input class="form-control" type="text" name="_id" value={{{_id}}} readonly>
+    <p>Nombre</p>
+    <input class="form-control" type="text" name="nombre" value={{{nombre}}}>
+    <p>Descripcion</p>
+    <input class="form-control" type="text" name="descripcion" value={{{descripcion}}}>
+    <p>Código</p>
+    <input class="form-control" type="text" name="codigo" value={{{codigo}}}>
+    <p>Foto</p>
+    <input class="form-control" type="text" name="foto" value={{{foto}}}>
+    <p>Precio</p>
+    <input class="form-control" type="text" name="precio" value={{{precio}}}>
+    <p>Stock</p>
+    <input class="form-control" type="text" name="stock" value={{{stock}}}>
+    <button class="actualizar_producto" type="submit" >Actualizar Producto</button>
+    <a class="actualizar_producto" href="http://localhost:8080/productos/lista"><input type="button" value="Volver al Panel de Productos"></a>
+</form>
+{{/each}}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style/main.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <title>Lista de Productos</title>
+
+</head>
+
+<body>
+
+    <h3>Panel de productos en carrito</h3>
+
+    <form action="http://localhost:8080/carrito">
+        <button id='borrar-producto' type="submit">Volver a la lista de productos</button>
+    </form>
+
+    <h3>El carrito tiene: {{carrito.length}} productos.</h3>
+
+    {{#mytitle}}Lista de Productos{{/mytitle}}
+
+    {{#if carrito}}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Descripcion</th>
+                <th scope="col">Codigo</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Stock</th>
+                <th scope="col">Foto</th>
+                <th scope="col">Accion</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {{#each carrito}}
+
+            <tr>
+                <th scope="row">{{_id}}</th>
+                <td><b>{{producto.nombre}}</b></td>
+                <td>{{producto.descripcion}}</td>
+                <td>{{producto.codigo}}</td>
+                <td>{{producto.precio}}</td>
+                <td>{{producto.stock}}</td>
+                <td><img class="img-thumbnail" src={{{producto.foto}}} alt="" /></td>
+                <td>
+                    <form action="/carrito/borrar/{{{_id}}}" method="POST" role="form">
+                        <button id='borrar-producto' type="submit" class="form-control">Eliminar Producto</button>
+                    </form>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    {{else}}
+
+    <p>No hay productos</p>
+
+    {{/if}}
+</body>

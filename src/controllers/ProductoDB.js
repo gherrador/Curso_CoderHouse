@@ -5,35 +5,32 @@ class ProductoDB {
     constructor() {}
 
 
-    guardar(data) {
-        const producto = {
-            timestamp: Date.now(),
-            nombre: data.nombre,
-            descripcion: data.descripcion,
-            codigo: data.codigo,
-            foto: data.foto,
-            precio: data.precio,
-            stock: data.stock
-        }
-
-        return daoProductos.create(producto, (err, res) => {
-            if (err) {
-                console.log(err);
-            } else {
-                // console.log(res);
-                return true;
+      async guardar(data) {
+        try {
+            const producto = {
+                timestamp: Date.now(),
+                nombre: data.nombre,
+                descripcion: data.descripcion,
+                codigo: data.codigo,
+                foto: data.foto,
+                precio: data.precio,
+                stock: data.stock
             }
-        });
+            const productoguardado = await daoProductos.create(producto)
+            return productoguardado
+        } catch {
+            return "Imposible guardar producto"
+        }
     }
 
-    listar() {
-        return daoProductos.find({}, (err, res) => {
-            if (err) {
-                console.log(err)
-            } else {
-                this.DB_PRODUCTOS = res
-            }
-        }).lean();
+    async listar() {
+        try {
+            const lista = await daoProductos.find({}).lean()
+            return lista
+        } catch {
+            return "Imposible lista producto"
+
+        }
     }
 
     async listarPorId(id) {

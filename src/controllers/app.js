@@ -3,16 +3,16 @@ const path = require('path')
 const { MONGO_URI } = require(path.join(__dirname, '../../config/global'));
 
 exports.getConnection = async() => {
-    mongoose.set("useCreateIndex", true);
-    await mongoose.connect(MONGO_URI, {
+    try {
+        mongoose.set("useCreateIndex", true);
+        await mongoose.connect(MONGO_URI, {
             useNewUrlParser: true,
             useFindAndModify: false,
             useUnifiedTopology: true,
             useCreateIndex: true
         })
-        .then(() => {
-            console.log('Database connected')
-        }).catch(err => {
-            console.error(err)
-        })
+        return console.log('Database connected successfully')
+    } catch {
+        return console.log('Failed to connect to database')
+    }
 }

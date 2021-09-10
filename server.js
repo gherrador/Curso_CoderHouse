@@ -2,11 +2,11 @@ const express = require("express");
 const app = express();
 const path = require('path')
 const handlebars = require('express-handlebars');
-const productoRoutes = require('./src/routes/productos');
-const frontProducto = require('./src/routes/front');
-const frontinicio = require('./src/routes/inicio')
-const carritoRoutes = require("./src/routes/carrito");
-const { getConnection } = require("./src/controllers/app")
+const productoRoutes = require(path.join(__dirname, './src/routes/productos'));
+const frontProducto = require(path.join(__dirname, './src/routes/front'));
+const frontinicio = require(path.join(__dirname, './src/routes/inicio'))
+const carritoRoutes = require(path.join(__dirname, "./src/routes/carrito"));
+const { getConnection } = require(path.join(__dirname, "./src/controllers/app"))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));

@@ -57,15 +57,14 @@
             </form>
         </section>
     </section>
-
-    {{#mytitle}}Lista de Productos{{/mytitle}}
-
-    {{#if productos}}    
     <form action="/carrito/lista">
         <button id='lista_carito' type="submit">Ir a mi Carrito</button>
     </form>
 
+    {{#mytitle}}Lista de Productos{{/mytitle}}
 
+    {{#if productos}}    
+    
     <table class="table">
         <thead>
             <tr>

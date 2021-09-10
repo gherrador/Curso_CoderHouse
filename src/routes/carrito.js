@@ -1,9 +1,9 @@
 const express = require('express');
 const path = require('path');
-const productos = require('../controllers/ProductoDB')
+const productos = require(path.join(__dirname, '../controllers/ProductoDB'))
 const productodb = new productos
 const routerCarrito = express.Router()
-const CarritoDB = require('../controllers/CarritoDB')
+const CarritoDB = require(path.join(__dirname, '../controllers/CarritoDB'))
 const Carrito = new CarritoDB;
 
 routerCarrito.get("/lista", async(req, res) => {

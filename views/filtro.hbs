@@ -1,0 +1,46 @@
+{{#mytitle}}Lista de Productos{{/mytitle}}
+
+<form action="http://localhost:8080/productos/lista">
+    <button id='borrar-producto' type="submit">Eliminar Filtro</button>
+</form>
+
+{{#if productos}}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Descripcion</th>
+            <th scope="col">Codigo</th>
+            <th scope="col">Precio</th>
+            <th scope="col">Stock</th>
+            <th scope="col">Foto</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        {{#each productos}}
+
+        <tr>
+            <th scope="row">{{_id}}</th>
+            <td><b>{{nombre}}</b></td>
+            <td>{{descripcion}}</td>
+            <td>{{codigo}}</td>
+            <td>{{precio}}</td>
+            <td>{{stock}}</td>
+            {{#if foto}}
+            <td>
+
+                <img class="img-thumbnail" src={{{foto}}} alt="" />
+            </td>
+            {{/if}}
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+{{else}}
+
+<p>No hay productos</p>
+
+{{/if}}

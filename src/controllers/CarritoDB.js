@@ -3,9 +3,7 @@ const { daoCarritos } = require(path.join(__dirname, "../models/esquemaCarrito")
 
 class CarritoDB {
 
-    constructor() {
-        this.DB_PRODUCTOS = this.listar()
-    }
+    constructor() {}
 
     async guardar(producto) {
         try {

@@ -4,7 +4,7 @@ const app = express();
 const routerProductos = express.Router()
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-const ProductoDB = require('../controllers/ProductoDB')
+const ProductoDB = require(path.join(__dirname, '../controllers/ProductoDB'))
 const productodb = new ProductoDB;
 const admin = true
 

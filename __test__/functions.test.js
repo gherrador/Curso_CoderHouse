@@ -8,31 +8,19 @@ describe("test de mis funciones", () => {
     })
 
     test('Shoudl return 8', () => {
-        const a = 3
-        const b = 5
-        const c = 8
-        expect(suma(a, b)).toBe(c);
+        expect(suma(3, 5)).toBe(8);
     })
     test('Shoul return  3', () => {
-        const a = -2
-        const b = 5
-        const c = 3
-        expect(suma(a, b)).toBe(c);
+        expect(suma(-2, 5)).toBe(3);
     })
     test('Shoul return  -3', () => {
-        const a = 2
-        const b = 5
-        const c = -3
-        expect(resta(a, b)).toBe(c);
+        expect(resta(5, 8)).toBe(-3);
     })
     test('Shoul return  3', () => {
         expect(resta(8, 5)).toBe(3);
     })
     test('Shoul return  10', () => {
-        const a = 2
-        const b = 5
-        const c = 10
-        expect(multiplicar(a, b)).toBe(c);
+        expect(multiplicar(2, 5)).toBe(10);
     })
     test('Shoul return  15', () => {
         expect(multiplicar(3, 5)).toBe(15);
@@ -41,10 +29,7 @@ describe("test de mis funciones", () => {
         expect(dividir(200, 100)).toBe(2);
     })
     test('Shoul return  3', () => {
-        const a = 15
-        const b = 5
-        const c = 3
-        expect(dividir(a, b)).toBe(c);
+        expect(dividir(15, 5)).toBe(3);
     })
 
 })

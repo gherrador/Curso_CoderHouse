@@ -11,15 +11,21 @@ const frontRoutes = require('./src/routes/front');
 const loginRoutes = require('./src/routes/login')
 const { getConnection } = require("./src/controllers/app");
 const { normalize, schema } = require('normalizr');
+const MongoStore = require('connect-mongo')
+const advancedOptions = { useNewUrlParser: true, useUnifiedTopology: true }
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser())
 app.use(session({
+    store: MongoStore.create({
+        mongoUrl: 'mongodb+srv://user-coder:barby089@codersql.ztxhn.mongodb.net/sesiones?retryWrites=true&w=majority',
+        mongoOptions: advancedOptions
+    }),
     secret: 'secret',
     resave: true,
-    saveUninitialized: true,
-    cookie: { maxAge: 60000 }
+    saveUninitialized: false,
+    cookie: { maxAge: 600000 }
 }));
 http.listen(8080, () => console.log("server on"))
 const mensajesDB = require("./src/controllers/MensajesDB")

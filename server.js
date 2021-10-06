@@ -17,8 +17,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser())
 app.use(session({
     secret: 'secret',
-    resave: true,
-    saveUninitialized: true,
+    resave: false,
+    saveUninitialized: false,
     cookie: { maxAge: 60000 }
 }));
 http.listen(8080, () => console.log("server on"))

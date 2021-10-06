@@ -2,9 +2,19 @@ const express = require('express');
 const router = express.Router();
 
 this.nombre = '';
+
 router.get('/login', (req, res) => {
-    res.render('login')
-})
+    if (req.session.username) {
+        res.render('index', {
+            active: 'index',
+            usuario: req.session.username
+        })
+    } else {
+        res.render('login')
+    }
+});
+
+
 router.get('/error', (req, res) => {
     res.render('errorlogeo')
 })

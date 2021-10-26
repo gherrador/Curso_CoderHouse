@@ -13,7 +13,8 @@ routerProductos.get("/lista", async(req, res) => {
         const productos = await productodb.listar();
         res.render('lista', {
             active: "lista",
-            productos: productos
+            productos: productos,
+            user: req.user
         });
     } catch {
         return res.redirect('http://localhost:8080/index/error')

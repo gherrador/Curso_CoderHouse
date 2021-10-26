@@ -2,6 +2,8 @@ const express = require("express");
 const handlebars = require('express-handlebars');
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
+const path = require('path')
+const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access')
 const productoRoutes = require('./src/routes/productos');;
 const frontRoutes = require('./src/routes/front');;
 const { getConnection } = require("./src/controllers/app");
@@ -11,25 +13,24 @@ const mensajesDB = require("./src/controllers/MensajesDB")
 const chats = new mensajesDB;
 const { Usuarios } = require('./src/models/usuarioDB');
 const passport = require('passport');
-const { Strategy: LocalStrategy } = require('passport-local');
-const bCrypt = require('bcrypt');
+const { FACEBOOK_CLIENT_ID, FACEBOOK_CLIENT_SECRET } = require('./config/global');
+const FacebookStrategy = require('passport-facebook').Strategy
 getConnection();
-
-/* ------------- VALIDATE PASSWORD ---------------- */
-
-const isValidPassword = function(user, password) {
-    return bCrypt.compareSync(password, user.password);
-}
-let createHash = function(password) {
-    return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
-}
-
 /* ------------------ PASSPORT -------------------- */
+const facebook_client_id = FACEBOOK_CLIENT_ID;
+const facebook_client_secret = FACEBOOK_CLIENT_SECRET;
 
-passport.use('signup', new LocalStrategy({ passReqToCallback: true }, async(req, username, password, done) => {
-    const { direccion } = req.body
+passport.use(new FacebookStrategy({
+    clientID: facebook_client_id.toString(),
+    clientSecret: facebook_client_secret.toString(),
+    callbackURL: '/auth/facebook/callback',
+    profileFields: ['id', 'displayName', 'photos', 'emails'],
+    scope: ['email']
+}, async function(accessToken, refreshToken, userProfile, done) {
+    let datos = userProfile
+    console.log(datos)
     findOrCreateUser = function() {
-        Usuarios.findOne({ 'username': username }, function(err, user) {
+        Usuarios.findOne({ 'userProfile.displayName': userProfile.displayName }, function(err, user) {
             if (err) {
                 console.log('error al registrar:' + err)
                 return done(err)
@@ -38,40 +39,23 @@ passport.use('signup', new LocalStrategy({ passReqToCallback: true }, async(req,
                 console.log('el usuario ya existe')
                 return done(null, false)
             } else {
-                let nuevo_usuario = new Usuarios();
-                nuevo_usuario.username = username;
-                nuevo_usuario.password = createHash(password);
-                nuevo_usuario.direccion = direccion
-                nuevo_usuario.save(function(err) {
-                    if (err) {
-                        console.log('error al guardar el usuario:' + err)
-                        throw err;
-                    }
-                    console.log('usuario registrado exitosamente')
-                    return done(null, nuevo_usuario)
-                })
+                var nuevo_usuario = new Usuarios();
+                nuevo_usuario.username = userProfile.displayName,
+                    nuevo_usuario.facebookId = userProfile.id,
+                    nuevo_usuario.email = userProfile.emails[0].value,
+                    nuevo_usuario.foto = userProfile.photos[0].value,
+                    nuevo_usuario.save(function(err) {
+                        if (err) {
+                            console.log('error al guardar el usuario:' + err)
+                            throw err;
+                        }
+                        console.log('usuario registrado exitosamente')
+                        return done(null, nuevo_usuario)
+                    })
             }
         })
     }
     process.nextTick(findOrCreateUser)
-}))
-
-passport.use('login', new LocalStrategy({ passReqToCallback: true }, async(req, username, password, done) => {
-    Usuarios.findOne({ 'username': username },
-        function(err, user) {
-            if (err)
-                return done(err)
-            if (!user) {
-                console.log('usuario no encontrado con el nombre:' + username)
-                return done(null, false)
-            }
-            if (!isValidPassword(user, password)) {
-                console.log('password incorrecto')
-                return done(null, false)
-            }
-            return done(null, user)
-        }
-    )
 }))
 
 passport.serializeUser(function(user, done) {
@@ -79,9 +63,9 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(async function(username, done) {
-    Usuarios.findOne({ 'username': username }, function(err, user) {
-        done(err, user)
-    })
+    Usuarios.findOne({ 'username': username }, function(err, username) {
+        done(err, username)
+    }).lean()
 });
 
 /* --------------------- SERVER --------------------------- */
@@ -92,6 +76,7 @@ const advancedOptions = { useNewUrlParser: true, useUnifiedTopology: true }
     /* --------------------- MIDDLEWARE --------------------------- */
 app.engine(
     'hbs', handlebars({
+        hbs: allowInsecurePrototypeAccess(handlebars),
         extname: '.hbs',
         defaultLayout: 'main.hbs',
         layoutsDir: __dirname + '/views/layouts',
@@ -99,7 +84,7 @@ app.engine(
     })
 )
 app.set('view engine', '.hbs');
-app.use(express.static("public"))
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser())
@@ -109,69 +94,33 @@ app.use(session({
         mongoOptions: advancedOptions
     }),
     secret: 'secret',
-    resave: true,
+    resave: false,
     saveUninitialized: false,
     cookie: { maxAge: 600000 }
 }));
+
 app.use(passport.initialize());
 app.use(passport.session());
-
 /* --------------------- ROUTES --------------------------- */
 
+
+app.get('/auth/facebook', passport.authenticate('facebook'));
+app.get('/auth/facebook/callback', passport.authenticate('facebook', { successRedirect: '/', failureRedirect: '/login' }))
 app.use("/productos", productoRoutes);
 app.use("/", frontRoutes);
 
 // LOGIN
+
 app.get('/login', (req, res) => {
     res.render('login')
 })
-app.post('/login', passport.authenticate('login', { failureRedirect: '/faillogin' }), getLogin);
-app.get('/faillogin', (req, res) => {
-    res.render('login-error', {});
+app.get('/', (req, res) => {
+    res.render('index', { user: req.user })
 })
 
-function getLogin(req, res) {
-    if (req.isAuthenticated()) {
-        let user = req.user.username
-        console.log('usuario logeado');
-        res.render('index', {
-            active: 'index',
-            usuario: user
-        })
-    } else {
-        console.log('error al logear usuario')
-        res.render('login')
-    }
-}
-
-//SIGNUP
-app.get('/signup', getSignup);
-app.post('/signup', passport.authenticate('signup', { failureRedirect: '/failregister' }), postSignup)
-app.get('/failregister', (req, res) => {
-    res.render('register-error', {});
-})
-
-function getSignup(req, res) {
-    res.render('signup')
-}
-
-function postSignup(req, res) {
-    let user = req.user.username
-    console.log('usuario logeado');
-    res.render('index', {
-        active: 'index',
-        usuario: user
-
-    })
-}
 /* --------- LOGOUT ---------- */
 app.get('/logout', (req, res) => {
-    let user = req.user.username
-    req.logout();
-    res.render('adios', {
-        active: 'adios',
-        usuario: user
-    })
+    res.render('adios', { user: req.user })
 })
 
 const autor = new schema.Entity("autor");

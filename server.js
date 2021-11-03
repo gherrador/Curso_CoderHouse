@@ -127,14 +127,16 @@ app.get('/logout', (req, res) => {
 
 /* --------- INFO ---------- */
 app.get('/info', (req, res) => {
-    // console.log(process.argv)
-    // console.log(process.memoryUsage())
+    const numCPUs = require('os').cpus().length
+        // console.log(process.argv)
+        // console.log(process.memoryUsage())
 
     res.render('info', {
         user: req.user,
         info: process,
         argv: process.argv,
         memoryUsage: process.memoryUsage(),
+        numCPUs: numCPUs,
     });
 })
 

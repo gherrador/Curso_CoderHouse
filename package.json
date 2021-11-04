@@ -6,8 +6,8 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "nodemon server.js",
-        "fork": "pm2 start server.js --name='ServerFork' --watch --",
-        "cluster": "pm2 start server.js --name='ServerCluster' --watch -i 1 --",
+        "fork": "pm2 start server.js --name='ServerFork' --watch",
+        "cluster": "pm2 start server.js --name='ServerCluster' --watch -i 1",
         "forever": "forever start -w server.js"
     },
     "author": "",

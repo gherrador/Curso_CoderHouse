@@ -15,6 +15,8 @@ const passport = require('passport');
 const { FACEBOOK_CLIENT_ID, FACEBOOK_CLIENT_SECRET } = require('./config/global');
 const FacebookStrategy = require('passport-facebook').Strategy
 const { fork } = require('child_process');
+const compression = require('compression');
+const { logger, loggerwarn, loggererror } = require('./src/controllers/logger')
 getConnection();
 /* ------------------ PASSPORT -------------------- */
 const port = parseInt(process.argv[2]) || 8080;
@@ -126,18 +128,24 @@ app.get('/logout', (req, res) => {
 
 
 /* --------- INFO ---------- */
-app.get('/info', (req, res) => {
-    const numCPUs = require('os').cpus().length
-        // console.log(process.argv)
-        // console.log(process.memoryUsage())
-
-    res.render('info', {
-        user: req.user,
-        info: process,
-        argv: process.argv,
-        memoryUsage: process.memoryUsage(),
-        numCPUs: numCPUs,
-    });
+app.get('/info', compression(), (req, res) => {
+    try {
+        logger.info('Información obtenida correctamente')
+        loggerwarn.warn('Mensaje warn -----------------> OK')
+        loggererror.error('Mensaje error ----------------->Sin errores')
+        const numCPUs = require('os').cpus().length
+        res.render('info', {
+            user: req.user,
+            info: process,
+            argv: process.argv,
+            memoryUsage: process.memoryUsage(),
+            numCPUs: numCPUs,
+        });
+    } catch (err) {
+        logger.warn('Error message: ' + err)
+        logger.info('Error message: ' + err);
+        logger.error('Error message: ' + err);
+    }
 })
 
 /* --------- RANDOMS ---------- */

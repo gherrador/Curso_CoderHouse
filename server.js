@@ -14,7 +14,7 @@ const { Usuarios } = require('./src/models/usuarioDB');
 const passport = require('passport');
 const { FACEBOOK_CLIENT_ID, FACEBOOK_CLIENT_SECRET } = require('./config/global');
 const FacebookStrategy = require('passport-facebook').Strategy
-const { fork } = require('child_process');
+    //const { fork } = require('child_process');
 const compression = require('compression');
 const { logger, loggerwarn, loggererror } = require('./src/controllers/logger')
 getConnection();
@@ -130,6 +130,7 @@ app.get('/logout', (req, res) => {
 /* --------- INFO ---------- */
 app.get('/info', compression(), (req, res) => {
     try {
+        console.log('Console log INFO')
         logger.info('Información obtenida correctamente')
         loggerwarn.warn('Mensaje warn -----------------> OK')
         loggererror.error('Mensaje error ----------------->Sin errores')
@@ -149,7 +150,7 @@ app.get('/info', compression(), (req, res) => {
 })
 
 /* --------- RANDOMS ---------- */
-app.get('/randoms', (req, res) => {
+/*app.get('/randoms', (req, res) => {
     const cant = req.query.cant
     const computo = fork('./computo.js');
     computo.send(cant)
@@ -159,7 +160,7 @@ app.get('/randoms', (req, res) => {
             randoms: numeros
         });
     })
-})
+})*/
 
 const autor = new schema.Entity("autor");
 const mensaje = new schema.Entity('mensaje', { autor: autor }, { idAttribute: (value) => (value._id ? `${value._id.toString()}` : value.id) }, {

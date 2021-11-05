@@ -4,8 +4,8 @@
     "description": "",
     "main": "server.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "nodemon server.js",
+        "test": "node src/controllers/autocannon.js",
+        "start": "0x server.js",
         "fork": "pm2 start server.js --name='ServerFork' --watch",
         "cluster": "pm2 start server.js --name='ServerCluster' --watch -i 1 --",
         "forever": "forever start -w server.js"
@@ -14,6 +14,8 @@
     "license": "ISC",
     "dependencies": {
         "@handlebars/allow-prototype-access": "^1.0.5",
+        "artillery": "1.7.7",
+        "autocannon": "^7.5.0",
         "bcrypt": "^5.0.1",
         "compression": "^1.7.4",
         "connect-mongo": "^4.6.0",
@@ -22,6 +24,7 @@
         "express": "^4.17.1",
         "express-handlebars": "^5.3.4",
         "express-session": "^1.17.2",
+        "log4js": "^6.3.0",
         "mongoose": "^5.13.12",
         "nodemon": "^2.0.14",
         "normalizr": "^3.6.1",

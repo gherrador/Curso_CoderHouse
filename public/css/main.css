@@ -1,0 +1,38 @@
+.login {
+    width: 320px;
+    margin: 0 auto;
+    margin-top: 100px;
+    border: 1px solid #eee;
+    padding: 15px;
+    background: #CCFFFF;
+    border-radius: 4px;
+}
+
+.Wellcome {
+    display: flex;
+    background-color: #7EFB87;
+    justify-content: space-between;
+    border: solid 1px black;
+    align-items: center;
+}
+
+.Wellcome p {
+    font-weight: bold;
+    font-size: 20px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.deslog {
+    background-color: yellow;
+    margin-right: 10px;
+    font-size: 15px;
+    border-radius: 10%;
+    font-weight: bold;
+}
+
+.imagen-adios img {
+    width: 200px;
+    height: 200px;
+    display: block;
+    margin: auto;
+}

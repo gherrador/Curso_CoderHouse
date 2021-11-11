@@ -5,6 +5,9 @@ const compression = require('compression');
 const isAuth = require('../controllers/helpers');
 const passport = require('passport')
 const { logger, loggererror, loggerwarn } = require('../controllers/logger')
+const path = require('path')
+
+console.log(path.join(__dirname, '../controllers/computo.js'))
 
 router.get('/auth/facebook', passport.authenticate('facebook', { scope: ["public_profile", "email"] }));
 router.get('/auth/facebook/callback', passport.authenticate('facebook', { successRedirect: 'https://codder-app.herokuapp.com', failureRedirect: 'https://codder-app.herokuapp.com/faillogin' }));
@@ -16,6 +19,11 @@ router.get('/login', (req, res) => {
 router.get('/login', (req, res) => {
     res.render('login')
 })
+
+router.get('/faillogin', (req, res) => {
+    res.render('login-error')
+})
+
 router.get('/', isAuth, (req, res) => {
     res.render('index', { user: req.user })
 })
@@ -51,7 +59,7 @@ router.get('/info', compression(), (req, res) => {
 /* --------- RANDOMS ---------- */
 router.get('/randoms', (req, res) => {
     const cant = req.query.cant
-    const computo = fork('../controllers/computo.js');
+    const computo = fork(path.join(__dirname, '../controllers/computo.js'));
     computo.send(cant)
     computo.on("message", numeros => {
         res.render('randoms', {
